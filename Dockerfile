@@ -18,12 +18,13 @@ RUN chmod +x /entrypoint.sh \
     && npm install iltorb --save-dev \
     && npm install \
     && grunt build \
-    && sed -ri -e "s/(if occupancy >=) 2:/\1 99:/" out/app_engine/apprtc.py \
-    && sed -ri -e "s/(if room.get_occupancy\(\) ==) 2:/\1 99:/" out/app_engine/apprtc.py \
-    && sed -ri -e "s/(if room.get_occupancy\(\) >=) 2:/\1 99:/" out/app_engine/apprtc.py \
+    && sed -ri -e "s/(if occupancy >=) 2:/\1 99:/" /usr/src/app/apprtcout/app_engine/apprtc.py \
+    && sed -ri -e "s/(if room.get_occupancy\(\) ==) 2:/\1 99:/" /usr/src/app/apprtcout/app_engine/apprtc.py \
+    && sed -ri -e "s/(if room.get_occupancy\(\) >=) 2:/\1 99:/" /usr/src/app/apprtcout/app_engine/apprtc.py \
     && cd /usr/src/app \
     && mkdir -p /usr/src/app/go/src \
     && cp -Rp /usr/src/app/apprtc/src/collider/collider /usr/src/app/go/src \
+    && sed -ri -e "s/(const maxRoomCapacity =) 2/\1 99/" /usr/src/app/go/src/collider/room.go \
     && cp -Rp /usr/src/app/apprtc/src/collider/collidermain /usr/src/app/go/src \
     && cp -Rp /usr/src/app/apprtc/src/collider/collidertest /usr/src/app/go/src \
     && mkdir -p /usr/src/app/go/src/golang.org/x \
