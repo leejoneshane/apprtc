@@ -5,6 +5,7 @@ RUN apk add --no-cache git wget python2 py-requests build-base openjdk8-jre go l
     && npm install -g grunt-cli
 COPY entrypoint.sh /entrypoint.sh
 COPY google-cloud-sdk /usr/src/app/google-cloud-sdk
+COPY index.js /usr/src/app/rest/index.js
 ENV PATH $PATH:/usr/src/app/google-cloud-sdk/bin
 ENV GOPATH /usr/src/app/go
 WORKDIR /usr/src/app
@@ -31,7 +32,9 @@ RUN chmod +x /entrypoint.sh \
     && git clone https://github.com/coturn/coturn \
     && cd /usr/src/app/coturn \
     && ./configure \
-    && make
+    && make \
+    && cd /usr/src/app/rest \
+    && npm install express --save
 
-EXPOSE 443 8089
+EXPOSE 80 3033 8089 3478 3478/udp 5349 5349/udp 5766 49152-65535/udp
 CMD /entrypoint.sh
