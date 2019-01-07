@@ -21,4 +21,4 @@ RUN  echo 'y' | ./google-cloud-sdk/bin/gcloud components install app-engine-pyth
 
 WORKDIR /usr/src/app/scratch-gui
 EXPOSE 80
-CMD ["npm","start"]
+CMD ./google-cloud-sdk/bin/dev_appserver.py --port=80 ./out/app_engine
