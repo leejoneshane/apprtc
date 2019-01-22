@@ -16,6 +16,7 @@ RUN chmod +x /entrypoint.sh \
     && git clone https://github.com/webrtc/apprtc \
     && cd /usr/src/app/apprtc \
     && npm install iltorb --save-dev \
+    && npm audit fix \
     && npm install \
     && grunt build \
     && sed -ri -e "s/(if occupancy >=) 2:/\1 99:/" /usr/src/app/apprtc/out/app_engine/apprtc.py \
