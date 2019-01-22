@@ -1,6 +1,6 @@
 FROM node:alpine
 
-RUN apk add --no-cache git wget python2 py-requests libressl2.7-libcrypto build-base openjdk8-jre go libevent-dev openssl-dev sqlite-dev linux-headers \
+RUN apk add --no-cache git wget python2 py-requests libressl2.7-libssl libressl2.7-libcrypto build-base openjdk8-jre go libevent-dev openssl-dev sqlite-dev linux-headers \
     && npm install -g npm \
     && npm install -g grunt-cli
 COPY entrypoint.sh /entrypoint.sh
