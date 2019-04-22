@@ -1,35 +1,37 @@
-FROM node:alpine
+FROM ubuntu
 
-RUN apk add --no-cache git wget python2 py-requests libressl2.7-libssl libressl2.7-libcrypto build-base openjdk8-jre go libevent-dev openssl-dev sqlite-dev linux-headers \
-    && npm install -g npm \
-    && npm install -g grunt-cli
+RUN apt-get update \
+    && apt-get -y install git nodejs npm golang lsb-release curl python-pip sqlite libevent-dev
+    
 COPY entrypoint.sh /entrypoint.sh
-COPY google-cloud-sdk /usr/src/app/google-cloud-sdk
 COPY index.js /usr/src/app/rest/index.js
+
 ENV PATH $PATH:/usr/src/app/google-cloud-sdk/bin
-ENV GOPATH /usr/src/app/go
+
 WORKDIR /usr/src/app
 
 RUN chmod +x /entrypoint.sh \
-    && echo 'y' | gcloud components install app-engine-python \
-    && echo 'y' | gcloud components install app-engine-python-extras \
+    && export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" \
+    && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
+    && apt-get update && apt-get install google-cloud-sdk google-cloud-sdk-app-engine-python google-cloud-sdk-app-engine-python-extras \
     && git clone https://github.com/webrtc/apprtc \
     && cd /usr/src/app/apprtc \
-    && npm install iltorb --save-dev \
-    && npm audit fix \
     && npm install \
-    && grunt build \
+    && npm install -g grunt-cli \
+    && pip install -r requirements.txt \
+    && grunt build --force \
     && sed -ri -e "s/(if occupancy >=) 2:/\1 99:/" /usr/src/app/apprtc/out/app_engine/apprtc.py \
     && sed -ri -e "s/(if room.get_occupancy\(\) ==) 2:/\1 99:/" /usr/src/app/apprtc/out/app_engine/apprtc.py \
     && sed -ri -e "s/(if room.get_occupancy\(\) >=) 2:/\1 99:/" /usr/src/app/apprtc/out/app_engine/apprtc.py \
     && cd /usr/src/app \
-    && mkdir -p /usr/src/app/go/src \
-    && cp -Rp /usr/src/app/apprtc/src/collider/collider /usr/src/app/go/src \
-    && sed -ri -e "s/(const maxRoomCapacity =) 2/\1 99/" /usr/src/app/go/src/collider/room.go \
-    && cp -Rp /usr/src/app/apprtc/src/collider/collidermain /usr/src/app/go/src \
-    && cp -Rp /usr/src/app/apprtc/src/collider/collidertest /usr/src/app/go/src \
-    && mkdir -p /usr/src/app/go/src/golang.org/x \
-    && git clone https://github.com/golang/net.git /usr/src/app/go/src/golang.org/x/net \
+    && mkdir -p /root/go/src \
+    && cp -Rp /usr/src/app/apprtc/src/collider/collider /root/go/src \
+    && sed -ri -e "s/(const maxRoomCapacity =) 2/\1 99/" /root/go/src/collider/room.go \
+    && cp -Rp /usr/src/app/apprtc/src/collider/collidermain /root/go/src \
+    && cp -Rp /usr/src/app/apprtc/src/collider/collidertest /root/go/src \
+    && mkdir -p /root/go/src/golang.org/x \
+    && git clone https://github.com/golang/net.git /root/go/src/golang.org/x/net \
     && go get collidermain && go install collidermain \
     && git clone https://github.com/coturn/coturn \
     && cd /usr/src/app/coturn \
