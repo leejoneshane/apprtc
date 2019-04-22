@@ -1,7 +1,8 @@
 FROM ubuntu
 
 RUN apt-get update \
-    && apt-get -y install git nodejs npm golang lsb-release curl python-pip sqlite libevent-dev
+    && apt-get -y install git nodejs npm golang lsb-release curl python-pip sqlite libevent-dev \
+    && apt-get clean
     
 COPY entrypoint.sh /entrypoint.sh
 COPY index.js /usr/src/app/rest/index.js
