@@ -29,7 +29,7 @@ RUN apt-get update \
     && cd /usr/src/app \
     && mkdir -p /root/go/src \
     && cp -Rp /usr/src/app/apprtc/src/collider/collider /root/go/src \
-    && sed -ri -e "s/(const maxRoomCapacity =) 2/\1 99/" /root/go/src/collider/room.go \
+    && sed -ri -e "s/(const maxRoomCapacity =) 2/\1 2/" /root/go/src/collider/room.go \
     && cp -Rp /usr/src/app/apprtc/src/collider/collidermain /root/go/src \
     && cp -Rp /usr/src/app/apprtc/src/collider/collidertest /root/go/src \
     && mkdir -p /root/go/src/golang.org/x \
@@ -42,5 +42,5 @@ RUN apt-get update \
     && cd /usr/src/app/rest \
     && npm install express --save
 
-EXPOSE 80 3033 8089 3478 3478/udp 5349 5349/udp 5766 49152-65535/udp
+EXPOSE 80 3033 8089 3478 3478/udp 5349 5349/udp 5766 65435-65535/udp
 CMD /entrypoint.sh
