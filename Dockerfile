@@ -4,8 +4,8 @@ COPY entrypoint.sh /entrypoint.sh
 COPY index.js /usr/src/app/rest/index.js
 
 ENV PATH $PATH:/usr/src/app/google-cloud-sdk/bin
-ENV MIN-PORT 65435
-ENV MAX-PORT 65535
+ENV MIN_PORT 65435
+ENV MAX_PORT 65535
 
 WORKDIR /usr/src/app
 
@@ -42,8 +42,8 @@ RUN apt-get update \
     && ./configure \
     && make && make install \
     && cp /usr/local/etc/turnserver.conf.default /etc/turnserver.conf \
-    && sed -ri -e "s/(min-port=) .*/\1 $MIN-PORT/" /etc/turnserver.conf \
-    && sed -ri -e "s/(max-port=) .*/\1 $MAX-PORT/" /etc/turnserver.conf \
+    && sed -ri -e "s/(min-port=) .*/\1 $MIN_PORT/" /etc/turnserver.conf \
+    && sed -ri -e "s/(max-port=) .*/\1 $MAX_PORT/" /etc/turnserver.conf \
     && cd /usr/src/app/rest \
     && npm install express --save
 
