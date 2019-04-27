@@ -40,7 +40,7 @@ RUN apt-get update \
     && git clone https://github.com/coturn/coturn \
     && cd /usr/src/app/coturn \
     && ./configure \
-    && make \
+    && make && make install \
     && sed -ri -e "s/(min-port=) .*/\1 $MIN-PORT/" /etc/turnserver.conf \
     && sed -ri -e "s/(max-port=) .*/\1 $MAX-PORT/" /etc/turnserver.conf \
     && cd /usr/src/app/rest \
