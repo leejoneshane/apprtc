@@ -29,7 +29,7 @@ RUN apt-get update \
     && sed -ri -e "s/(if occupancy >=) 2:/\1 99:/" /usr/src/app/apprtc/out/app_engine/apprtc.py \
     && sed -ri -e "s/(if room.get_occupancy\(\) ==) 2:/\1 99:/" /usr/src/app/apprtc/out/app_engine/apprtc.py \
     && sed -ri -e "s/(if room.get_occupancy\(\) >=) 2:/\1 99:/" /usr/src/app/apprtc/out/app_engine/apprtc.py \
-    && sed -ri -e "s/(window\.history\.pushState\(.*\);)/roomLink=roomLink.substring("http","https");\n\t\1/" /usr/src/app/apprtc/out/app_engine/js/apprtc.debug.js \
+    && sed -ri -e "s/(window\.history\.pushState\(.*\);)/roomLink=roomLink\.substring\(\"http\",\"http\"\);\n\t\1/" /usr/src/app/apprtc/out/app_engine/js/apprtc.debug.js \
     && cd /usr/src/app \
     && mkdir -p /root/go/src \
     && cp -Rp /usr/src/app/apprtc/src/collider/collider /root/go/src \
