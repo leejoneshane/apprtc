@@ -47,5 +47,5 @@ RUN apt-get update \
     && cd /usr/src/app/rest \
     && npm install express --save
 
-EXPOSE 80 3033 8089 3478 3478/udp 5349 5349/udp 5766 65435-65535/udp
+EXPOSE 80 3033 8089 3478 3478/udp 5349 5349/udp 5766
 CMD /entrypoint.sh
