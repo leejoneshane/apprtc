@@ -1,4 +1,6 @@
 #/bin/sh
+sed -ri -e "s/(min-port=) .*/\1 $MIN_PORT/" /etc/turnserver.conf
+sed -ri -e "s/(max-port=) .*/\1 $MAX_PORT/" /etc/turnserver.conf
 
 exec dev_appserver.py --host=0.0.0.0 --port=80 /usr/src/app/apprtc/out/app_engine
 
