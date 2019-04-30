@@ -33,7 +33,7 @@ RUN apt-get update \
     && cd /usr/src/app \
     && mkdir -p /root/go/src \
     && cp -Rp /usr/src/app/apprtc/src/collider/collider /root/go/src \
-    && sed -ri -e "s/(const maxRoomCapacity =) 2/\1 2/" /root/go/src/collider/room.go \
+    && sed -ri -e "s/(const maxRoomCapacity =) 2/\1 99/" /root/go/src/collider/room.go \
     && cp -Rp /usr/src/app/apprtc/src/collider/collidermain /root/go/src \
     && cp -Rp /usr/src/app/apprtc/src/collider/collidertest /root/go/src \
     && mkdir -p /root/go/src/golang.org/x \
