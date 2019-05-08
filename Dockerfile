@@ -1,6 +1,5 @@
 FROM node:alpine
 
-COPY entrypoint.sh /entrypoint.sh
 WORKDIR /usr/src/app
 
 RUN apk add --no-cache git \
